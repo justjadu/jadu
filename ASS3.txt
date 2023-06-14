@@ -1,0 +1,57 @@
+Title : Design a Flutter application where user input a name and mobile number of person and show on  next screen in different colors and font
+
+
+import 'package:flutter/material.dart';
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  String _name = 'ved namde';
+  String _phoneNumber = '9322245480';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('My Form')),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  _name = value;
+                });
+              },
+              decoration: InputDecoration(labelText: 'Name'),
+              controller: TextEditingController(text: _name), // Pre-fill with name
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  _phoneNumber = value;
+                });
+              },
+              decoration: InputDecoration(labelText: 'Phone Number'),
+              keyboardType: TextInputType.phone,
+              controller: TextEditingController(text: _phoneNumber), // Pre-fill with phone number
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                // Perform form submission logic here
+                print('Name: $_name');
+                print('Phone Number: $_phoneNumber');
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
