@@ -1,0 +1,120 @@
+Title : Design Flutter Application for TODO list.
+
+
+
+
+import 'package:flutter/material.dart';
+void main() => runApp(const MyApp());
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Task List',
+      home: WorkList(),
+    );
+  }
+}
+class Work {
+  final String name;
+
+  final String work;
+  final String date;
+  Work(this.name, this.work, this.date);
+}
+class WorkList extends StatefulWidget {
+  const WorkList({super.key});
+  @override
+  // ignore: library_private_types_in_public_api
+  _WorkListState createState() => _WorkListState();
+}
+class _WorkListState extends State<WorkList> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _workController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final List<Work> _works =
+  []; void _addWork() {
+    setState(() {
+      final name = _nameController.text;
+      final work = _workController.text;
+      final date = _dateController.text;
+      final newWork = Work(name, work, date);
+      _works.add(newWork);
+      _nameController.clear();
+      _workController.clear();
+      _dateController.clear();
+    });
+  }
+  @override
+  Widget build(BuildContext context)
+
+  { return Scaffold( appBar:
+  AppBar(
+  title: const Text('TO-DO LIST'),
+  ),
+  body: Column(
+  children: <Widget>[
+  TextField(
+  controller: _nameController,
+  decoration: const InputDecoration(
+  labelText: 'TODO Task',
+  icon:Icon(Icons.drive_file_rename_outline_outlined),
+  ),
+  ),
+  TextField(
+  controller: _workController,
+  decoration: const InputDecoration(
+  labelText: 'Description of Task',
+  icon:Icon(Icons.work),
+  ),
+  ),
+  TextField(
+  controller: _dateController,
+  decoration: InputDecoration(
+  labelText: ' DATE',
+  icon: const Icon(Icons.date_range_outlined),
+  suffixIcon: IconButton(
+  icon: const Icon(Icons.calendar_today),
+  onPressed: ()
+  async {
+  final DateTime? date = await showDatePicker(
+  context: context,
+  initialDate: DateTime.now(),
+  
+  firstDate: DateTime(2022),
+  lastDate: DateTime.now(),
+  );
+  if (date != null) {
+  _dateController.text = date.toString().substring(0, 10);
+  }
+  },
+  ),
+  ), ),
+  const SizedBox(height: 50.0),
+  ElevatedButton( onPressed: _addWork, child: const
+  Text('Submit'),
+  ),
+
+  Expanded(
+  child: ListView.builder(
+  itemCount: _works.length,
+  itemBuilder: (BuildContext context, int index)
+  { final work = _works[index];
+  return ListTile( title: Text(work.name),
+  subtitle: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+  Text(work.work),
+  Text(work.date),
+  ],
+  ),
+  );
+  },
+  ),
+  ),
+
+  ],
+  ),
+  );
+}
+}
